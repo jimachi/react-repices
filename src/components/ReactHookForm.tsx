@@ -1,4 +1,14 @@
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const schema = z.object({
+  email: z
+    .string()
+    .email({message: 'メールアドレス形式ではありません。'})
+    .min(1, { message: '1文字以上入力する必要があります。' }),
+  password: z.string().min(8),
+})
 
 const ReactHookForm = () => {
   const {
@@ -12,7 +22,7 @@ const ReactHookForm = () => {
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    resolver: zodResolver(schema)
   });
 
   const onSubmit = (data) => console.log(data);
@@ -28,38 +38,20 @@ const ReactHookForm = () => {
           <label htmlFor="email">Email</label>
           <input
             id="email"
-            name={name}
-            onChange={onChange}
-            onBlur={onBlur}
-            ref={ref}
+            {...register('email', {
+              required: true,
+            })}
           />
+          <p>{errors.email?.message}</p>
         </div>
         <div>
           <label htmlFor="password">Password</label>
           <input
             id="password"
             type="password"
-            {...register('password', {
-              required: {
-                value: true,
-                message: "入力が必須の項目です",
-              },
-              pattern: {
-                value: /^[A-Za-z]+$/,
-                message: 'アルファベットのみ入力してください。',
-              },
-              minLength: {
-                value: 8,
-                message: '8文字以上入力してください。'
-              }
-            })}
+            {...register('password')}
           />
-          {errors.password?.type === 'required' && (
-            <div>入力が必須の項目です。</div>
-          )}
-          {errors.password?.type === 'minLength' && (
-            <div>8文字以上入力してください。</div>
-          )}
+          <p>{errors.password?.message}</p>
         </div>
         <div>{getValues('email')}</div>
         <div>{watch('email')}</div>
