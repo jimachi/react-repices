@@ -4,6 +4,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { todoListState } from "../states/atoms/todoList";
 import TodoListStats from "./TodoListStats";
 import TodoItemCreator from "./TodoItemCreator";
+import TodoItem from "./TodoItem";
 
 let id = 1;
 const getId = () => {
@@ -19,7 +20,7 @@ const TodoList: React.FC = () => {
       <TodoListStats />
       <TodoItemCreator />
       {todoList.map((item) => (
-        <div key={item.id}>{item.title}</div>
+        <TodoItem key={item.id} item={item} />
       ))}
     </>
   );
