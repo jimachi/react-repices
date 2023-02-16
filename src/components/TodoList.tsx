@@ -1,27 +1,9 @@
 import React from "react";
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
-import { Todo } from "../types/Todo";
+import { useRecoilValue } from "recoil";
 
-// atomは直接更新できない
-const todoListState = atom<Todo[]>({
-  key: "todoListState",
-  default: [
-    {
-      id: 0,
-      title: "メール送信",
-      isComplete: false,
-    },
-  ],
-});
+import { todoListState } from "../states/atoms/todoList";
+import { todoListStatsState } from "../states/selectors/todoList";
 
-const todoListStatsState = selector({
-  key: "todoListStatsState",
-  get: ({ get }) => {
-    const todoList = get(todoListState);
-    const totalNum = todoList.length;
-    return totalNum;
-  },
-});
 
 const TodoList: React.FC = () => {
   // useRecoilValueは値を取得するのみ、変更はできない
