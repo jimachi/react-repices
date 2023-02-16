@@ -1,3 +1,4 @@
+import { todoListFilterState } from "./../atoms/todoList";
 import { selector } from "recoil";
 import { todoListState } from "../atoms/todoList";
 
@@ -14,5 +15,22 @@ export const todoListStatsState = selector({
       totalCompletedNum,
       totalUnCompletedNum,
     };
+  },
+});
+
+export const filteredTodoListState = selector({
+  key: "filteredTodoListState",
+  get: ({ get }) => {
+    const filter = get(todoListFilterState);
+    const list = get(todoListState);
+
+    switch (filter) {
+      case "完了":
+        return list.filter((item) => item.isComplete);
+      case "未完了":
+        return list.filter((item) => !item.isComplete);
+      case "すべて":
+        return list;
+    }
   },
 });

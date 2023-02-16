@@ -11,3 +11,8 @@ export const todoListState = atom<Todo[]>({
     },
   ],
 });
+
+export const todoListFilterState = atom<"すべて" | "完了" | "未完了">({
+  key: "todoListFilterState",
+  default: "すべて",
+});
