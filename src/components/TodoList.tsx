@@ -1,21 +1,24 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
+import React, { useState } from "react";
+import { useRecoilValue, useRecoilState } from "recoil";
 
 import { todoListState } from "../states/atoms/todoList";
 import TodoListStats from "./TodoListStats";
+import TodoItemCreator from "./TodoItemCreator";
+
+let id = 1;
+const getId = () => {
+  return id++;
+};
 
 const TodoList: React.FC = () => {
-  // useRecoilValueは値を取得するのみ、変更はできない
-  const _todoList = useRecoilValue(todoListState);
-
-  // useRecoilStateは値を更新するときに使う
-  // const [todoList, setTodoList] = useRecoilState(todoListState);
+  const todoList = useRecoilValue(todoListState);
 
   return (
     <>
       <h1>RecoilによるTodoアプリ</h1>
       <TodoListStats />
-      {_todoList.map((item) => (
+      <TodoItemCreator />
+      {todoList.map((item) => (
         <div key={item.id}>{item.title}</div>
       ))}
     </>
